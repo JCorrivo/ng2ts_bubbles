@@ -1,5 +1,8 @@
-import {bootstrap}    from 'angular2/platform/browser'
-import {AppComponent} from './app.component'
+import {provide}        from 'angular2/core';
+import {bootstrap}      from 'angular2/platform/browser'
+import {AppComponent}   from './app.component'
 
-bootstrap(AppComponent, [])
-	.catch(err => console.error(err));
+bootstrap(AppComponent, [
+    provide('canvasWidth', {useValue: 900}),
+    provide('canvasHeight', {useValue: 300})
+]).catch(err => console.error(err));

@@ -2,9 +2,21 @@ import {Injectable} from 'angular2/core';
 
 @Injectable()
 export class Circles {
-  circles = [
-    {x: 50, y: 50, radius: 10},
-    {x: 75, y: 75, radius: 20},
-    {x: 115, y: 115, radius: 30}
-  ];
+    static parameters = ['canvasWidth', 'canvasHeight']
+    
+    constructor(canvasWidth: Number, canvasHeight: Number) {
+        this.circles = [];
+  
+        for (let i = 0; i < 100; i++) {
+            this.circles.push({
+                x: randInt(canvasWidth), 
+                y: randInt(canvasHeight), 
+                radius: randInt(80) + 10 
+            });
+        }
+    }
+    
+    function randInt(max: Number): Number {
+        return Math.floor(Math.random() * max);
+    }
 }

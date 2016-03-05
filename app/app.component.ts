@@ -8,15 +8,21 @@ import {Circles} from './circles.service';
 	directives: [CircleComponent],
     providers: [Circles],    
     template: `
-		<svg viewBox="0 0 900 200" preserveAspectRatio="xMidYMid meet">
+<svg viewBox="0 0 900 300" preserveAspectRatio="xMidYMid meet">
 			<svg:g my-circle *ngFor="#circle of circles.circles" [circle]="circle" />
 		</svg>
 	`
 })
 export class AppComponent{
-    private circles: Circles;
+    static parameters = [Circles, 'canvasWidth', 'canvasHeight'];
     
-    constructor(circles: Circles) {
+    constructor(circles: Circles, canvasWidth: Number, canvasHeight: Number) {
         this.circles = circles;
+        this.width = canvasWidth;
+        this.height = canvasHeight;
+    }
+    
+    function getViewBox(): l_context {
+        return `0 0 ${this.width} ${this.height}`;
     }
 }
