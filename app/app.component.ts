@@ -8,7 +8,9 @@ import {Circles} from './circles.service';
 	directives: [CircleComponent],
     providers: [Circles],    
     template: `
-        <svg [attr.viewBox]="getViewBox()" preserveAspectRatio="xMidYMid meet">
+        <svg [attr.viewBox]="getViewBox()" 
+          preserveAspectRatio="xMidYMid meet" 
+          (click)="toggleRunning()">
 			<svg:g my-circle *ngFor="#circle of circles.circles" [circle]="circle" />
 		</svg>
 	`
@@ -29,6 +31,14 @@ export class AppComponent{
 
     ngOnDestroy() {
         this.running = false;
+    }
+    
+    toggleRunning() {
+        this.running = !this.running;
+        
+        if (this.running) {
+            this.animationFrame();
+        }
     }
     
     animationFrame() {
