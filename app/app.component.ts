@@ -4,8 +4,9 @@ import {CircleComponent} from './circle.component';
 @Component({
     selector: 'my-app',
 	directives: [CircleComponent],
+    styleUrls: ['./app/app.component.css'],
     template: `
-		<svg viewBox="0 0 900 500" preserveAspectRatio="xMidYMid meet">
+		<svg viewBox="0 0 900 200" preserveAspectRatio="xMidYMid meet">
 			<svg:g my-circle *ngFor="#circle of circles" [circle]="circle" />
 		</svg>
 	`

@@ -1,11 +1,14 @@
 
-#my ignores
+# my ignores
 typings
 node_modules
 app/*.js
 app/*.js.map
 
 
+
+
+# =========================
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
