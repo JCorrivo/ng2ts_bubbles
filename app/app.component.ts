@@ -8,7 +8,7 @@ import {Circles} from './circles.service';
 	directives: [CircleComponent],
     providers: [Circles],    
     template: `
-<svg viewBox="0 0 900 300" preserveAspectRatio="xMidYMid meet">
+        <svg [attr.viewBox]="getViewBox()" preserveAspectRatio="xMidYMid meet">
 			<svg:g my-circle *ngFor="#circle of circles.circles" [circle]="circle" />
 		</svg>
 	`
@@ -21,8 +21,25 @@ export class AppComponent{
         this.width = canvasWidth;
         this.height = canvasHeight;
     }
+
+    ngOnInit() {
+        this.running = true;
+        this.animationFrame();
+    }
+
+    ngOnDestroy() {
+        this.running = false;
+    }
     
-    function getViewBox(): l_context {
+    animationFrame() {
+        this.circles.update();
+        
+        if (this.running) {
+            requestAnimationFrame(() => this.animationFrame());
+        }
+    }
+    
+    getViewBox(): String {
         return `0 0 ${this.width} ${this.height}`;
     }
 }

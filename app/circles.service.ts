@@ -9,14 +9,23 @@ export class Circles {
   
         for (let i = 0; i < 100; i++) {
             this.circles.push({
-                x: randInt(canvasWidth), 
-                y: randInt(canvasHeight), 
-                radius: randInt(80) + 10 
+                x: this.randInt(canvasWidth), 
+                y: this.randInt(canvasHeight), 
+                radius: this.randInt(80) + 10,
+                xMove: this.randInt(5) - 2, // -2..2
+                yMove: this.randInt(5) - 2  // -2..2
             });
         }
     }
     
-    function randInt(max: Number): Number {
+    update() {
+        for (const circle of this.circles) {
+            circle.x += circle.xMove;
+            circle.y += circle.yMove;
+        }
+    }
+    
+    randInt(max: Number): Number {
         return Math.floor(Math.random() * max);
     }
 }

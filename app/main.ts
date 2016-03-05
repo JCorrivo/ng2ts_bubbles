@@ -5,4 +5,4 @@ import {AppComponent}   from './app.component'
 bootstrap(AppComponent, [
     provide('canvasWidth', {useValue: 900}),
     provide('canvasHeight', {useValue: 300})
-]).catch(err => console.error(err));
+]);
