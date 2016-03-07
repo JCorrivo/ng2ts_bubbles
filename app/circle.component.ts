@@ -5,7 +5,14 @@ import {Component} from 'angular2/core';
 	inputs: ['circle'],
     styleUrls: ['./app/circle.component.css'],
 	template: `
-		<svg:circle [attr.cx]="circle.x" [attr.cy]="circle.y" [attr.r]="circle.radius" />
+		<svg:circle [attr.cx]="circle.x" 
+                    [attr.cy]="circle.y" 
+                    [attr.r]="circle.radius"
+                    [style]="getStyle()" />
 	`
 })
-export class CircleComponent {}
+export class CircleComponent {
+    getStyle() {
+        return this.circle.visible ? '' : 'display: none;';
+    }
+}

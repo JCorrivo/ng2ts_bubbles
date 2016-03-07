@@ -6,14 +6,15 @@ export class Circles {
     private canvasHeight: number;
     
     private sourceCircles: any = [];
-    private circles: any;
+    private circles: any = [];
     private pairs: any;
+    private circleMap: any = new Map();
     
     static parameters = ['canvasWidth', 'canvasHeight']
     constructor(canvasWidth: number, canvasHeight: number) {
         this.canvasWidth = canvasWidth;
         this.canvasHeight = canvasHeight;
-      
+       
         for (let i = 0; i < 100; i++) {
             this.sourceCircles.push({
                 x: this.randInt(canvasWidth), 
@@ -37,8 +38,8 @@ export class Circles {
             this.moveCircle(circle);
         }
         
-        this.circles = [];
-        for (const [left, right] of this.pairs) {
+        for (const pair of this.pairs) {
+            const [left, right] = pair;
             const dist = this.distance(left, right);
             const overlap = dist - left.radius - right.radius;
             
@@ -46,8 +47,28 @@ export class Circles {
                 // midpoint = average of the two coordinates
                 const midX = (left.x + right.x) / 2;
                 const midY = (left.y + right.y) / 2;
-                const collisionCircle = {x: midX, y: midY, radius: -overlap / 2};
-                this.circles.push(collisionCircle);
+                const radius = -overlap / 2;
+                let collisionCircle = this.circleMap.get(pair);
+                               
+                if (collisionCircle) {
+                    collisionCircle.x = midX;
+                    collisionCircle.y = midY;
+                    collisionCircle.radius = radius;
+                } else {
+                    collisionCircle = {x: midX, y: midY, radius};
+                    this.circles.push(collisionCircle);
+                    this.circleMap.set(pair, collisionCircle);
+                }
+                
+                if (!collisionCircle.visible) {
+                    collisionCircle.visible = true;
+                    const red = Math.floor(this.randInt(256));
+                    const green = Math.floor(this.randInt(256));
+                    const blue = Math.floor(this.randInt(256));
+                    collisionCircle.color = `rgba(${red}, ${green}, ${blue}, 0.5)`;
+                }
+            } else if (this.circleMap.has(pair)) {
+                this.circleMap.get(pair).visible = false;
             }
         }
     }
