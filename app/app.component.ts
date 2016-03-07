@@ -16,9 +16,13 @@ import {Circles} from './circles.service';
 	`
 })
 export class AppComponent{
-    static parameters = [Circles, 'canvasWidth', 'canvasHeight'];
+    private circles: Circles;
+    private width: number;
+    private height: number;
+    private running: boolean;
     
-    constructor(circles: Circles, canvasWidth: Number, canvasHeight: Number) {
+    static parameters = [Circles, 'canvasWidth', 'canvasHeight'];
+    constructor(circles: Circles, canvasWidth: number, canvasHeight: number) {
         this.circles = circles;
         this.width = canvasWidth;
         this.height = canvasHeight;
@@ -49,7 +53,7 @@ export class AppComponent{
         }
     }
     
-    getViewBox(): String {
+    getViewBox(): string {
         return `0 0 ${this.width} ${this.height}`;
     }
 }

@@ -2,16 +2,20 @@ import {Injectable} from 'angular2/core';
 
 @Injectable()
 export class Circles {
-    static parameters = ['canvasWidth', 'canvasHeight']
+    private canvasWidth: number;
+    private canvasHeight: number;
     
-    constructor(canvasWidth: Number, canvasHeight: Number) {
+    private sourceCircles: any = [];
+    private circles: any;
+    private pairs: any;
+    
+    static parameters = ['canvasWidth', 'canvasHeight']
+    constructor(canvasWidth: number, canvasHeight: number) {
         this.canvasWidth = canvasWidth;
         this.canvasHeight = canvasHeight;
-        
-        this.circles = [];
-  
+      
         for (let i = 0; i < 100; i++) {
-            this.circles.push({
+            this.sourceCircles.push({
                 x: this.randInt(canvasWidth), 
                 y: this.randInt(canvasHeight), 
                 radius: this.randInt(80) + 10,
@@ -19,15 +23,36 @@ export class Circles {
                 yMove: this.randInt(5) - 2  // from -2 to 2
             });
         }
-    }
-    
-    update() {
-        for (const circle of this.circles) {
-            this.moveCircle(circle);
+        
+        this.pairs = [];
+        for (let i = 0 ; i < this.sourceCircles.length - 1 ; i++) {
+            for (let j = i ; j < this.sourceCircles.length - 1 ; j++) {
+                this.pairs.push([this.sourceCircles[i], this.sourceCircles[j + 1]]);
+            }
         }
     }
     
-    moveCircle (circle){
+    update() {
+        for (const circle of this.sourceCircles) {
+            this.moveCircle(circle);
+        }
+        
+        this.circles = [];
+        for (const [left, right] of this.pairs) {
+            const dist = this.distance(left, right);
+            const overlap = dist - left.radius - right.radius;
+            
+            if (overlap < 0) {
+                // midpoint = average of the two coordinates
+                const midX = (left.x + right.x) / 2;
+                const midY = (left.y + right.y) / 2;
+                const collisionCircle = {x: midX, y: midY, radius: -overlap / 2};
+                this.circles.push(collisionCircle);
+            }
+        }
+    }
+    
+    moveCircle (circle: any){
         circle.x += circle.xMove;
         circle.y += circle.yMove;
     
@@ -48,7 +73,14 @@ export class Circles {
         }
     }
     
-    randInt(max: Number): Number {
+    distance(circle1: any, circle2: any) {
+        return Math.sqrt(
+            (circle2.x - circle1.x) ** 2 +
+            (circle2.y - circle1.y) ** 2
+        );
+    }
+    
+    randInt(max: number): number {
         return Math.floor(Math.random() * max);
     }
 }
