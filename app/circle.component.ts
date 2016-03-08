@@ -1,8 +1,7 @@
-import {Component} from 'angular2/core';
+import {Component, Input} from 'angular2/core';
 
 @Component({
     selector: '[my-circle]',
-	inputs: ['circle'],
 	template: `
 		<svg:circle [attr.cx]="circle.x" 
                     [attr.cy]="circle.y" 
@@ -12,6 +11,8 @@ import {Component} from 'angular2/core';
 	`
 })
 export class CircleComponent {
+    @Input() circle: any;
+    
     getStyle() {
         return this.circle.visible ? '' : 'display: none;';
     }
