@@ -1,4 +1,5 @@
 import {Component, Input} from 'angular2/core';
+import {Circle} from './circles.service';
 
 @Component({
     selector: '[my-circle]',
@@ -11,7 +12,7 @@ import {Component, Input} from 'angular2/core';
 	`
 })
 export class CircleComponent {
-    @Input() circle: any;
+    @Input() circle: Circle;
     
     getStyle() {
         return this.circle.visible ? '' : 'display: none;';

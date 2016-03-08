@@ -5,8 +5,8 @@ export class Circles {
     private canvasWidth: number;
     private canvasHeight: number;
     
-    private sourceCircles: any = [];
-    private circles: any = [];
+    private sourceCircles: Circle[] = [];
+    private circles: Circle[] = [];
     private pairs: any;
     private circleMap: any = new Map();
     
@@ -15,14 +15,18 @@ export class Circles {
         this.canvasWidth = canvasWidth;
         this.canvasHeight = canvasHeight;
        
+        let c: Circle;
+       
         for (let i = 0; i < 100; i++) {
-            this.sourceCircles.push({
+            c = <Circle> {
                 x: this.randInt(canvasWidth), 
                 y: this.randInt(canvasHeight), 
                 radius: this.randInt(80) + 10,
                 xMove: this.randInt(5) - 2, // from -2 to 2
                 yMove: this.randInt(5) - 2  // from -2 to 2
-            });
+            };
+            
+            this.sourceCircles.push(c);
         }
         
         this.pairs = [];
@@ -73,7 +77,7 @@ export class Circles {
         }
     }
     
-    moveCircle (circle: any){
+    moveCircle (circle: Circle){
         circle.x += circle.xMove;
         circle.y += circle.yMove;
     
@@ -94,7 +98,7 @@ export class Circles {
         }
     }
     
-    distance(circle1: any, circle2: any) {
+    distance(circle1: Circle, circle2: Circle) {
         return Math.sqrt(
             (circle2.x - circle1.x) ** 2 +
             (circle2.y - circle1.y) ** 2
@@ -104,4 +108,14 @@ export class Circles {
     randInt(max: number): number {
         return Math.floor(Math.random() * max);
     }
+}
+
+export interface Circle {
+    x: number;
+    y: number;
+    radius: number;
+    color: string;
+    xMove: number;
+    yMove: number;
+    visible: boolean;
 }
